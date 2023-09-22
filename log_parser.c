@@ -19,6 +19,7 @@ void lstadd_back(t_log **lst, t_log *new);
 void lstclear(t_log **lst, void (*del)(void *));
 void lstdelone(t_log *lst, void (*del)(void *));
 void del_t_log(void *log);
+void swap(int *a, int *b);
 
 char month_list[12][4] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
                           "Oct", "Nov", "Dec"};
@@ -54,17 +55,9 @@ int main()
             (top[2] == -1 || logs[top[2]].size < logs[timestamp].size))
             top[2] = timestamp;
         if (top[2] != -1 && (top[1] == -1 || logs[top[2]].size > logs[top[1]].size))
-        {
-            int temp = top[2];
-            top[2] = top[1];
-            top[1] = temp;
-        }
+            swap(&top[2], &top[1]);
         if (top[1] != -1 && (top[0] == -1 || logs[top[1]].size > logs[top[0]].size))
-        {
-            int temp = top[1];
-            top[1] = top[0];
-            top[0] = temp;
-        }
+            swap(&top[1], &top[0]);
     }
     fclose(fp);
 
@@ -128,4 +121,11 @@ void lstdelone(t_log *lst, void (*del)(void *))
 void del_t_log(void *log)
 {
     free(log);
+}
+
+void swap(int *a, int *b)
+{
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
 }
